@@ -3,12 +3,13 @@ __author__ = "Florence Carton"
 import sys
 from environments.EnvironmentGrid1D import EnvironmentGrid1D
 from environments.EnvironmentGrid2D import EnvironmentGrid2D
+from environments.EnvironmentMaze2D import EnvironmentMaze2D
 
 
 def make_env(env_name, params):
 
 	list_environments = {
-	'EnvironmentGrid2D':EnvironmentGrid2D(params)
+	'EnvironmentMaze2D':EnvironmentMaze2D(params)
 	}
 
 	try:

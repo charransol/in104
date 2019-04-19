@@ -25,8 +25,8 @@ class Agentpassirandom(Agent):
     def step(self, reward, state, prev_state,action):
         """See documentation in the base class"""
         
-        alpha=0.8
-        gamma=0.8
+        alpha=0.9
+        gamma=0.9
         max_next=self.q[state][0] #max_next le max(a) des q(s,a)
         j=1
         while j<self.num_actions:
@@ -41,7 +41,7 @@ class Agentpassirandom(Agent):
     def policy(self, state):
         """See documentation in the base class"""
         maxi=[]
-        R=0.01
+        R=0.05
         for i in range(self.num_actions):
             if self.q[state][i]==max(self.q[state]):
                 maxi.append(i)

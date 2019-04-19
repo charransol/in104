@@ -15,12 +15,12 @@ def default_params():
 
 	
 	## Environment parameters"
-	'env':'EnvironmentGrid2D',
-	'num_cells_grid2D': 100, 
+	'env':'EnvironmentMaze2D',
+	'num_cells_maze2D': 4000, 
 
 
 	## Training parameters
-	'num_training_episodes':1000,
+	'num_training_episodes':10000,
 	'max_action_per_episode':200
 
 	}

@@ -4,8 +4,10 @@ __credits__ = ["Florence Carton", "Freek Stulp", "Antonin Raffin"]
 import random
 from environments.Environment import Environment
 import time
+from environments.cree_labyrinthe import cree_labyrinthe
+from math import sqrt
 
-class EnvironmentGrid2D(Environment):
+class EnvironmentMaze2D(Environment):
 
     LEFT = 0
     RIGHT = 1
@@ -16,7 +18,7 @@ class EnvironmentGrid2D(Environment):
 
     def __init__(self,params):
         
-        n = int(params['num_cells_grid2D'])
+        n = int(params['num_cells_maze2D'])
         q=2
         Q=[]
         r=1
@@ -26,7 +28,11 @@ class EnvironmentGrid2D(Environment):
                 Q.append(q)
             q+=1
         w=Q[random.randint(0,len(Q)-1)]
+        while (w<sqrt(n)//3 or w>(sqrt(n)-sqrt(n)//10)):
+            w=Q[random.randint(0,len(Q)-1)]
         h=n//w
+        
+
         
         self.num_states=n #crée une grille de largeur w de hauteur hen fct de numcellesgrid
         self.h=h
@@ -43,7 +49,9 @@ class EnvironmentGrid2D(Environment):
 
         # end state
         self.terminal_state = random.randint(0,self.num_states) # arbitrary
-
+    
+    
+        self.lab=cree_labyrinthe(self.num_states,self.terminal_state,self.h,self.w)
         self.viewer = None
 
 
@@ -52,26 +60,26 @@ class EnvironmentGrid2D(Environment):
         
         # Decrease agent_cell by 1 if you go left, but only if you are not
         # in the left-most cell already
-        if action==EnvironmentGrid2D.LEFT:
-            if self.current_state%self.w>0:
+        if action==EnvironmentMaze2D.LEFT:
+            if self.current_state%self.w>0 and self.lab[self.current_state-1]==1:
                 self.current_state -= 1
 
         # Increase agent_cell by 1 if you go right, but only if you are not
         # in the right-most cell already
-        if action==EnvironmentGrid2D.RIGHT:     
-            if self.current_state%self.w<(self.w-1):
+        if action==EnvironmentMaze2D.RIGHT:     
+            if self.current_state%self.w<(self.w-1) and self.lab[self.current_state+1]==1:
                 self.current_state += 1
         
         # Decrease agent_cell by 1 if you go left, but only if you are not
         # in the left-most cell already
-        if action==EnvironmentGrid2D.HIGH:
-            if self.current_state//self.w>0:
+        if action==EnvironmentMaze2D.HIGH:
+            if self.current_state//self.w>0 and self.lab[self.current_state-self.w]==1:  
                 self.current_state -= self.w
 
         # Increase agent_cell by 1 if you go right, but only if you are not
         # in the right-most cell already
-        if action==EnvironmentGrid2D.LOW:     
-            if self.current_state//self.w<(self.h-1):
+        if action==EnvironmentMaze2D.LOW:     
+            if self.current_state//self.w<(self.h-1) and self.lab[self.current_state+self.w]==1:
                 self.current_state += self.w 
         
         
@@ -94,7 +102,7 @@ class EnvironmentGrid2D(Environment):
 
         # Put agent at random position (but not in a terminal state)
         cell = random.randint(0,self.num_states-1)
-        while cell == self.terminal_state:
+        while cell == self.terminal_state or self.lab[cell]==0:
             cell = random.randint(0,self.num_states-1)
         self.current_state = cell
         
@@ -115,33 +123,42 @@ class EnvironmentGrid2D(Environment):
             l,r,t,b = 0, cell_width, cell_height, 0
             cell = rendering.FilledPolygon([(l,b), (l,t), (r,t), (r,b)])
             cell.set_color(0,0,1) # blue for current state
-            end = rendering.FilledPolygon([(l,b), (l,t), (r,t), (r,b)])
+            
+            endo=self.terminal_state
+            endx=endo%self.w*cell_width
+            endy = endo//self.w*cell_height
+            c,d,e,f=endx, endx+cell_width, endy+cell_height, endy
+            end = rendering.FilledPolygon([(c,f), (c,e), (d,e), (d,f)])
             end.set_color(1,0,0) # red for end state (note : end state is 0)
+            self.viewer.add_geom(end)
+            
+            for i in range(self.num_states):
+                lb = self.lab[i]
+                if lb==0:
+                    lbx = i%self.w*cell_width
+                    lby = i//self.w*cell_height
+                    laby = rendering.FilledPolygon([(l+lbx,b+lby), (l+lbx,t+lby), (r+lbx,t+lby), (r+lbx,b+lby)])
+                    laby.set_color(0,1,0) # green for maze
+                    self.viewer.add_geom(laby)
             
             self.celltrans = rendering.Transform()
             cell.add_attr(self.celltrans)
             self.viewer.add_geom(cell)
             
-            self.endtrans = rendering.Transform()
-            end.add_attr(self.endtrans)
-            self.viewer.add_geom(end)
+
 
         if self.current_state is None: return None
-        if self.terminal_state is None: return None
-        
         
         state = self.current_state
         cellx = state%self.w*cell_width
         celly = state//self.w*cell_height
         self.celltrans.set_translation(cellx,celly)
         
-        end=self.terminal_state
-        endx=end%self.w*cell_width
-        endy = end//self.w*cell_height
-        self.endtrans.set_translation(endx,endy)
         
         
-        time.sleep(0.05)
+
+        
+        time.sleep(0.01)
 
 
         return self.viewer.render()

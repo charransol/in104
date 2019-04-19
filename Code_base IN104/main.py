@@ -112,10 +112,10 @@ if __name__ == "__main__":
     # Run episodes
 
     for episode in range(params['num_training_episodes']):
+        if (episode%1000==0):    
+            print("Episode ",episode,"starting.")
 
-        print("Episode ",episode,"starting.")
-
-        render = args.render and episode % 200 == 0 # to display every 100 episodes
+        render = args.render and episode % 1000 == 0 # to display every 100 episodes
 
         total_reward = runEpisode(environment, agent, 
                         params['max_action_per_episode'], 
@@ -127,16 +127,28 @@ if __name__ == "__main__":
         y_rewards.append(total_reward)
         nb_episode.append(episode)
         #print (agent.q) #affiche les matrices 
-        print("Episode ",episode," done. Total reward: ",total_reward)
-        print("_______________________________")
+        if (episode%1000==0):    
+            print("Episode ",episode," done. Total reward: ",total_reward)
+            print("_______________________________")
 
     environment.close()
 
     #Plot the learning curve
+    pas=100
+    ymoy=[]
+    for i in range(params['num_training_episodes']//pas-1):
+        a=0
+        m=0
+        for k in range(pas):
+            a=y_rewards[i*pas+k]
+            m+=a
+        m=m/pas
+        ymoy.append(m)
     axes = pyplot.gca()
-    axes.set_xlim([0, params['num_training_episodes']])
+    axes.set_xlim([0, params['num_training_episodes']//pas])
     axes.set_ylim([-100, max(y_rewards)])
-    pyplot.plot(nb_episode, y_rewards)
+    pyplot.plot(range(params['num_training_episodes']//pas-1), ymoy)
+    #pyplot.plot(nb_episode, y_rewards)
     pyplot.show()
 
 

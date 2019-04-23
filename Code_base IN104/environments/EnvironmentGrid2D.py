@@ -141,7 +141,7 @@ class EnvironmentGrid2D(Environment):
         self.endtrans.set_translation(endx,endy)
         
         
-        time.sleep(0.05)
+        time.sleep(0.005)
 
 
         return self.viewer.render()

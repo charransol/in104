@@ -104,6 +104,7 @@ if __name__ == "__main__":
     params['num_states'] = environment.num_states
     params['num_actions'] = environment.num_actions
 
+
     agent = make_agent(agent_name, params)
 
     y_rewards = []
@@ -115,7 +116,7 @@ if __name__ == "__main__":
         if (episode%1000==0):    
             print("Episode ",episode,"starting.")
 
-        render = args.render and episode % 1000 == 0 # to display every 100 episodes
+        render = args.render and episode % 1000 == 0 and episode!=0# to display every 100 episodes
 
         total_reward = runEpisode(environment, agent, 
                         params['max_action_per_episode'], 
@@ -136,6 +137,7 @@ if __name__ == "__main__":
     #Plot the learning curve
     pas=100
     ymoy=[]
+    xmoy=[]
     for i in range(params['num_training_episodes']//pas-1):
         a=0
         m=0
@@ -144,10 +146,11 @@ if __name__ == "__main__":
             m+=a
         m=m/pas
         ymoy.append(m)
+        xmoy.append(nb_episode[pas*i])
     axes = pyplot.gca()
-    axes.set_xlim([0, params['num_training_episodes']//pas])
+    axes.set_xlim([0, params['num_training_episodes']])
     axes.set_ylim([-100, max(y_rewards)])
-    pyplot.plot(range(params['num_training_episodes']//pas-1), ymoy)
+    pyplot.plot(xmoy, ymoy)
     #pyplot.plot(nb_episode, y_rewards)
     pyplot.show()
 

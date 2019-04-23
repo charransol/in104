@@ -11,7 +11,7 @@ def default_params():
 	params_dict = {
 
 	## Agent parameters
-	'agent': 'agentsarsa',
+	'agent': 'Agentpassirandom',
 
 	
 	## Environment parameters"
@@ -21,7 +21,7 @@ def default_params():
 
 	## Training parameters
 	'num_training_episodes':10000,
-	'max_action_per_episode':500
+	'max_action_per_episode':400
 
 	}
 	return params_dict

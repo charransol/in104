@@ -5,6 +5,8 @@ import random
 from environments.Environment import Environment
 import time
 from environments.cree_labyrinthe import cree_labyrinthe
+from environments.cree_labyrinthedur import cree_labyrinthedur
+from environments.cree_labyrinthedur2 import cree_labyrinthedur2
 from math import sqrt
 
 class EnvironmentMaze2D(Environment):
@@ -51,7 +53,7 @@ class EnvironmentMaze2D(Environment):
         self.terminal_state = random.randint(0,self.num_states) # arbitrary
     
     
-        self.lab=cree_labyrinthe(self.num_states,self.terminal_state,self.h,self.w)
+        self.lab=cree_labyrinthedur2(self.num_states,self.terminal_state,self.h,self.w)
         self.viewer = None
 
 

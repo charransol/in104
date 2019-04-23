@@ -32,15 +32,14 @@ class agentsarsa(Agent):
         #mise à jour
         alpha=0.9
         gamma=0.9
-        if action!=-1:
 #            print('q', self.q)
 #            print('ps', prev_state)
 #            print('s', state)
 #            print('a', action)
 #            print('na', new_action)
-            self.q[prev_state][action]=self.q[prev_state][action]+alpha*(reward+gamma*self.q[state][new_action]-self.q[prev_state][action])
+        self.q[prev_state][action]=self.q[prev_state][action]+alpha*(reward+gamma*self.q[state][new_action]-self.q[prev_state][action])
 #            print('new q', self.q)
-        new_action=action
+        
 #        print('ok')
         return new_action
         

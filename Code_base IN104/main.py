@@ -62,7 +62,7 @@ def runEpisode(environment, agent, max_action_per_episode,render=False, debug= F
         
 
         # Get the next action for this state
-        action = agent.step(reward,state,prev_state,action)
+        action = agent.step(reward,state,prev_state,action, is_done)
 
         num_actions += 1
 

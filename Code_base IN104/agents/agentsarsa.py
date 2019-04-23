@@ -25,28 +25,31 @@ class agentsarsa(Agent):
         action = self.policy(initial_state)
         return action
 
-    def step(self, reward, action, prev_state, state,is_done):
+    def step(self, reward, state, prev_state, action,is_done):
         """See documentation in the base class"""
         #trouver ce qu'on va faire après
         new_action = self.policy(state)
         #mise à jour
-        alpha=0.8
-        gamma=0.2
+        alpha=0.9
+        gamma=0.9
         if action!=-1:
-
+#            print('q', self.q)
+#            print('ps', prev_state)
+#            print('s', state)
+#            print('a', action)
+#            print('na', new_action)
             self.q[prev_state][action]=self.q[prev_state][action]+alpha*(reward+gamma*self.q[state][new_action]-self.q[prev_state][action])
-        
+#            print('new q', self.q)
         new_action=action
-        print('act=', action)
-        return action
+#        print('ok')
+        return new_action
         
     def policy(self, state):
         """See documentation in the base class"""
         maxi=[]
-        R=0.01
-        print('q=', self.q)
+        R=0.05
         for i in range(self.num_actions):
-            print('state=', state)
+            
             if self.q[state][i]==max(self.q[state]):
                 maxi.append(i)
         r=random.random()

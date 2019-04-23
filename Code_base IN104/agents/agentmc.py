@@ -38,7 +38,8 @@ class agentmc(Agent):
         
         if is_done==True :
             for i in range (len(self.chemin)):
-                etat,action=self.chemin[len(self.chemin)-i-1]
+                etat=self.chemin[len(self.chemin)-i-1][0]
+                action=self.chemin[len(self.chemin)-i-1][1]
                 c=self.rewards[action][etat]
                 c.append(self.num_states-len(self.chemin)+i)
                 self.rewards[action][etat]=c

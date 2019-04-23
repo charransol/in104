@@ -21,7 +21,7 @@ def default_params():
 
 	## Training parameters
 	'num_training_episodes':10000,
-	'max_action_per_episode':200
+	'max_action_per_episode':400
 
 	}
 	return params_dict

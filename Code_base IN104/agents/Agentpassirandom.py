@@ -22,7 +22,7 @@ class Agentpassirandom(Agent):
         action = self.policy(initial_state)
         return action
 
-    def step(self, reward, state, prev_state,action):
+    def step(self, reward, state, prev_state,action,is_done,num_actions):
         """See documentation in the base class"""
         
         alpha=0.9
@@ -48,6 +48,7 @@ class Agentpassirandom(Agent):
         r=random.random()
         if r>=R:
             a=random.randint(0,len(maxi))
+            print(a)
             return(maxi[a])
         else:
             return(random.randint(0,self.num_actions-1))

@@ -2,6 +2,7 @@ __author__ = "Florence Carton"
 
 import sys
 from agents.Agentpassirandom import Agentpassirandom
+from agents.Agentremontecarlo import Agentremontecarlo
 
 
 
@@ -9,7 +10,7 @@ from agents.Agentpassirandom import Agentpassirandom
 def make_agent(agent_name, params):
 
 	list_agent = {
-	'Agentpassirandom':Agentpassirandom(params)
+	'Agentremontecarlo':Agentremontecarlo(params)
 	}
 
 	try:

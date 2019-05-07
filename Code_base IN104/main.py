@@ -24,7 +24,6 @@ def runEpisode(environment, agent, max_action_per_episode,render=False, debug= F
             is terminated.
         render (bool) : to display learning
         debug (bool) : display debug information
-
     Returns:
         The return of the episode, i.e. the sum over all the rewards.
     """
@@ -51,8 +50,10 @@ def runEpisode(environment, agent, max_action_per_episode,render=False, debug= F
              environment.render()
         prev_state=state
         # Update the state, and get the reward and next state
+        
         state,reward, is_done = environment.step(action)
-    
+
+        
         total_reward += reward
 
         # Print output
@@ -62,7 +63,7 @@ def runEpisode(environment, agent, max_action_per_episode,render=False, debug= F
         
 
         # Get the next action for this state
-        action = agent.step(reward,state,prev_state,action, is_done)
+        action = agent.step(reward,state,prev_state,action,is_done,num_actions)
 
         num_actions += 1
 

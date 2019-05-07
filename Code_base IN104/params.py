@@ -11,17 +11,17 @@ def default_params():
 	params_dict = {
 
 	## Agent parameters
-	'agent': 'Agentpassirandom',
+	'agent': 'Agentremontecarlo',
 
 	
 	## Environment parameters"
 	'env':'EnvironmentMaze2D',
-	'num_cells_maze2D': 4000, 
+	'num_cells_maze2D': 10000, 
 
 
 	## Training parameters
 	'num_training_episodes':10000,
-	'max_action_per_episode':400
+	'max_action_per_episode':100
 
 	}
 	return params_dict
